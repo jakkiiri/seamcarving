@@ -7,9 +7,12 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
+                "C:\\Users\\Jakkii\\OneDrive - University of Toronto\\Documents\\GitHub\\seamcarving\\c_img.h",
+                "C:\\Users\\Jakkii\\OneDrive - University of Toronto\\Documents\\GitHub\\seamcarving\\seamcarving.h",
                 "C:\\Users\\Jakkii\\OneDrive - University of Toronto\\Documents\\GitHub\\seamcarving\\c_img.c",
                 "C:\\Users\\Jakkii\\OneDrive - University of Toronto\\Documents\\GitHub\\seamcarving\\seamcarving.c",
                 "C:\\Users\\Jakkii\\OneDrive - University of Toronto\\Documents\\GitHub\\seamcarving\\main.c",
+                "{file}",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
             "options": {

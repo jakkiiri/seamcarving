@@ -32,7 +32,27 @@ void calc_energy(struct rgb_img *im, struct rgb_img **grad){
 }  
 
 void dynamic_seam(struct rgb_img *grad, double **best_arr) {
-
+    // Allocate memory for the best_arr
+    int height = grad->height;
+    int width = grad->width;
+    *best_arr = (double*) malloc(height * width * sizeof(double));
+    // Initialize the first row of best_arr
+    for (int x = 0; x < width; x++) {
+        (*best_arr)[x] = get_pixel(grad, 0, x, 0);
+    }
+    // Calculate the rest of best_arr
+    for (int y = 1; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            double min = (*best_arr)[(y - 1) * width + x];
+            if (x > 0 && (*best_arr)[(y - 1) * width + x - 1] < min) {
+                min = (*best_arr)[(y - 1) * width + x - 1];
+            }
+            if (x < width - 1 && (*best_arr)[(y - 1) * width + x + 1] < min) {
+                min = (*best_arr)[(y - 1) * width + x + 1];
+            }
+            (*best_arr)[y * width + x] = get_pixel(grad, y, x, 0) + min;
+        }
+    }
 }
 
 void recover_path(double *best, int height, int width, int **path) {
