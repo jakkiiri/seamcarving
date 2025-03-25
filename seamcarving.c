@@ -56,7 +56,29 @@ void dynamic_seam(struct rgb_img *grad, double **best_arr) {
 }
 
 void recover_path(double *best, int height, int width, int **path) {
-
+    // Allocate memory for the path
+    *path = (int*) malloc(height * sizeof(int));
+    // Find the smallest value from the last row
+    double min = best[(height - 1) * width];
+    (*path)[height - 1] = 0;
+    for (int x = 1; x < width; x++) {
+        if (best[(height - 1) * width + x] < min) {
+            min = best[(height - 1) * width + x];
+            (*path)[height - 1] = x;
+        }
+    }
+    // Recover the rest of the path by working bottom up
+    for (int y = height - 2; y >= 0; y--) {
+        int x = (*path)[y + 1];
+        int min_x = x;
+        if (x > 0 && best[y * width + x - 1] < best[y * width + min_x]) {
+            min_x = x - 1;
+        }
+        if (x < width - 1 && best[y * width + x + 1] < best[y * width + min_x]) {
+            min_x = x + 1;
+        }
+        (*path)[y] = min_x;
+    }
 }
 
 void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path) {
