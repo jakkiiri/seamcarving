@@ -82,5 +82,18 @@ void recover_path(double *best, int height, int width, int **path) {
 }
 
 void remove_seam(struct rgb_img *src, struct rgb_img **dest, int *path) {
-
+    // Allocate memory for the destination image
+    int height = src->height;
+    int width = src->width;
+    create_img(dest, height, width - 1);
+    // Copy the source image to the destination without the pixels in the path
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width - 1; x++) {
+            if (x < path[y]) {
+                set_pixel(*dest, y, x, get_pixel(src, y, x, 0), get_pixel(src, y, x, 1), get_pixel(src, y, x, 2));
+            } else {
+                set_pixel(*dest, y, x, get_pixel(src, y, x + 1, 0), get_pixel(src, y, x + 1, 1), get_pixel(src, y, x + 1, 2));
+            }
+        }
+    }
 }
